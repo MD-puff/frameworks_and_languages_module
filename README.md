@@ -18,9 +18,9 @@ https://schemathesis.readthedocs.io/en/stable/python.html
 
 Setup
 -----
-*server base: express.js
-*client base: vue.js
-*client layout: ???
+	server base: express.js
+	client base: vue.js
+	client layout: ???
 
 * Browser
 	* Allow popups for `https://gitpod.io`
