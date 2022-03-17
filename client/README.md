@@ -1,2 +1,4 @@
 Client
 ======
+
+npm run dev
