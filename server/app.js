@@ -41,24 +41,36 @@ app.post("/items", (req, res) => {
 })
 
 app.get("/itemStorage/:itemId", (req, res) => {
-    if (Object.keys(items).length == 0) {//Check if not deleted
+    if (Object.keys(items).length == 0) {//Check if not empty
       return res.status(204).json({ msg: `No items found.` });
     }
     else
     {
       var searchId = req.params.itemId;
       var itemIds = Object.keys(items);
-      if (itemIds.includes(searchId)) {//Check if the searched item exist
+      if (itemIds.includes(searchId)) {//Check if item exist
         var item = items[searchId];
         res.status(200).json({ item, msg: 'Item Found' });//Return item
       }
       else
       {
-        res.status(400).json({ msg: 'Invalid input' })
+        res.status(404).json({ msg: 'Invalid input' })
       }
     }
   })
 
+app.delete("/itemStorage/:itemId", (req, res) =>{
+  const searchID = req.params.itemId;
+  const itemIds = Object.keys(items);
+  if (itemIds.includes(searchID)) {////Check if item exist
+    delete items[searchID];//Deletes the item from itemStorage
+    return res.status(200).json({ items });
+  }
+  else
+  {
+    return res.status(404).json({ msg: `No items found.` });
+  }  
+})
 
 app.listen(port, () => {
   console.log(`App listening at port: ${port}`)
