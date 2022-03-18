@@ -3,16 +3,22 @@
 const express = require('express');
 const app = express();
 const port = 8000; //server port
-const cor = require('cors')
+const cor = require('cors');
 const path = require('path');
 const items = require('./itemStorage');
 
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:8001',
+  methods: ['GET','POST','DELETE', 'OPTIONS']
+}));//defined origin and methods
+
+app.use(express.urlencoded({ extended: false}))
+app.use(express.json())
 
 
 //Route
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.js'))
+  res.sendFile(path.join(__dirname, 'build', 'index.js'))//Should initiate index.js file
 })
 
 app.post("/items", (req, res) => {
@@ -32,11 +38,14 @@ app.post("/items", (req, res) => {
     return res.status(405).json({ msg: 'Invalid input' });
   }
   items[newItem.id] = newItem;
-  res.status(201).json(items);
+  res.status(201).json({msg:'Item created.',items});
 })
 
+
+
+
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`App listening at port: ${port}`)
 })
 
 // https://expressjs.com/en/guide/error-handling.html
