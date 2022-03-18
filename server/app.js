@@ -40,7 +40,24 @@ app.post("/items", (req, res) => {
   res.status(201).json({msg:'Item created.',items});
 })
 
-
+app.get("/itemStorage/:itemId", (req, res) => {
+    if (Object.keys(items).length == 0) {//Check if not deleted
+      return res.status(204).json({ msg: `No items found.` });
+    }
+    else
+    {
+      var searchId = req.params.itemId;
+      var itemIds = Object.keys(items);
+      if (itemIds.includes(searchId)) {//Check if the searched item exist
+        var item = items[searchId];
+        res.status(200).json({ item, msg: 'Item Found' });//Return item
+      }
+      else
+      {
+        res.status(400).json({ msg: 'Invalid input' })
+      }
+    }
+  })
 
 
 app.listen(port, () => {
