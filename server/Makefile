@@ -16,7 +16,7 @@ node_modules:
 
 build:
 	docker build --tag ${DOCKER_IMAGE} .
-run:
+run: a
 	docker run --rm -it --publish 8000:8000 ${DOCKER_IMAGE}
 #run_shell:
 #	docker run --rm -it --publish 3000:3000 --entrypoint /bin/sh ${DOCKER_IMAGE}
