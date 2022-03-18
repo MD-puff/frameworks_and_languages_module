@@ -12,9 +12,9 @@ help:	## display this help
 	# default client port 8001
 
 run:  ##
-	${DOCKER_COMPOSE} up
+	${DOCKER_COMPOSE} up --build
 run_example:  ## run example server and client containers
-	${DOCKER_COMPOSE_EXAMPLE} up
+	${DOCKER_COMPOSE_EXAMPLE} up --build
 run_example_server:  ##
 	${DOCKER_COMPOSE} --file docker-compose.example.server.yml up --build server
 		## run --rm server /bin/sh

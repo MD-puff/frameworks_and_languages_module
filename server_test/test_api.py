@@ -61,7 +61,7 @@ def item_factory(ENDPOINT):
     yield _item_factory
     for _id in _item_ids:
         response = requests.delete(ENDPOINT + f"/item/{_id}")
-        assert response.status_code == 201
+        assert response.status_code == 204
 
 
 def test_options(ENDPOINT):
@@ -128,7 +128,7 @@ def test_item_delete(ENDPOINT, new_item):
     response = requests.get(url)
     assert response.status_code == 200
     response = requests.delete(url)
-    assert response.status_code == 201
+    assert response.status_code == 204
     response = requests.get(url)
     response.status_code == 404
 

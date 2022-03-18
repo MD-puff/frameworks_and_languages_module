@@ -2,7 +2,7 @@
 openapi: '3.0.2'
 info:
   title: FreeCycle
-  version: '0.0'
+  version: '0.1'
   description: |
     FreeCycle your old stuff - keep things out of landfill
 
@@ -13,9 +13,6 @@ info:
 
     # Future ideas
     This is currently a REST API. A trivial bridge could be created to make this work with SMS.
-    SMS is popular/accessible infrastructure in 3rd world countries.
-    Some SMS API providers give rough geo-location of the sender.
-    With simple SMS messages, people could offer there unheeded bits or even advertise skills.
 
     # Authentication
     As this is a service created as a learning activity, there is no security or authentication.
@@ -23,24 +20,68 @@ info:
 tags:
   - name: item
     description: An item that is advertised
-  - name: item_model
-    x-displayName: The item model
-    description: |
-      <SchemaDefinition schemaRef="#/components/schemas/Item" />
+  #- name: item_model
+  #  x-displayName: The item model
+  #  description: |
+  #    <SchemaDefinition schemaRef="#/components/schemas/Item" />
+  - name: root
+    description: root resources
 
 x-tagGroups:
   - name: General
     tags:
       - item
-  - name: Models
-    tags:
-      - item_model
+      - root
+  #- name: Models
+  #  tags:
+  #    - item_model
 servers:
   - url: //api.server.test/v1
     description: The deployed url of the api. Currently it is not hosted externally.
-  
+
+## TODO CORS headers  
 
 paths:
+
+  '/':
+    get:
+      tags:
+        - root
+      summary: Human readable html 'hello' page
+      description: Used for a human to known the service is working
+      operationId: root
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+                example: <html><body>Your HTML text</body></html>
+
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - root
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: "POST, GET, OPTIONS, DELETE"
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Content-Type
+          content: {}
+
+
   '/item/':
     post:
       tags:
@@ -53,8 +94,12 @@ paths:
       responses:
         '201':
           description: Item created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         '405':
-          description: Invalid input
+          description: Invalid input - some input fields may be missing
   '/item/{itemId}/':
     parameters:
       - name: itemId
@@ -78,8 +123,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
-        '400':
-          description: Invalid ID supplied
         '404':
           description: Item not found
 
@@ -90,8 +133,10 @@ paths:
       description: Remove an item by itemID
       operationId: deleteItem
       responses:
-        '400':
-          description: Invalid itemID
+        '404':
+          description: Item not found
+        '204':
+          description: Ok
 
   '/items/':
     parameters:
@@ -148,8 +193,9 @@ paths:
       tags:
         - item
       operationId: findItemsByQuery
-      summary: List items from search criteria
-      description: Get a list of items matching the search/query criteria
+      summary: List multiple items
+      description: Get a list of all items or optionally filter from query string criteria.
+        This needs to be improved to support pagination in future.
       responses:
         '200':
           description: get list of items matching query
@@ -161,19 +207,19 @@ paths:
                   $ref: '#/components/schemas/Item'
                 #maxItems: 10
               #TODO: consider pagination?
-  '/keywords/':
-    get:
-      tags:
-        - keywords
-      operationId: getKeywords
-      summary: gets a list of all the keywords currently in use in the system across all Items
-      responses:
-        '200':
-          description: keyword list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Keywords'
+  # '/keywords/':
+  #   get:
+  #     tags:
+  #       - keywords
+  #     operationId: getKeywords
+  #     summary: gets a list of all the keywords currently in use in the system across all Items
+  #     responses:
+  #       '200':
+  #         description: keyword list
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Keywords'
 
 components:
   examples:

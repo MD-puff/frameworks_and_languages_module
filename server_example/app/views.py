@@ -32,7 +32,7 @@ def delete_item(request):
     if not item:
         return {'code': 404}    
     datastore.delete_item(_id)
-    return {'code': 201}
+    return {'code': 204}
 
 def post_item(request):
     data = request.get('body')

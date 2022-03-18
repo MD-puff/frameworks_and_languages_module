@@ -2,8 +2,12 @@ import pytest
 
 import os
 import time
+import socket
+from urllib.parse import urlparse
 
-import requests
+
+def is_port_open(hostname, port):
+    return socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect_ex((hostname, port)) == 0
 
 
 @pytest.fixture(scope="session")
@@ -17,14 +21,15 @@ def wait_for_service(ENDPOINT):
     Before starting tests
     Wait for service to become available
     """
+    _endpoint = urlparse(ENDPOINT)
     for attempt in range(10):
         try:
-            if requests.get(ENDPOINT).status_code == 200:
+            if is_port_open(_endpoint.hostname, _endpoint.port):
                 return
-        except requests.exceptions.ConnectionError as ex:
+        except Exception as ex:
             pass
         time.sleep(1)
-    raise Exception(f"{ENDPOINT} not responding")  # TODO: This does not seem to stop execution of tests?
+    raise Exception(f"{ENDPOINT} port is not active")  # TODO: This does not seem to stop execution of tests?
     #request.addfinalizer(finalizer_function)
 
 
