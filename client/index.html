@@ -1,13 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+	<head>
+		<meta charset="utf-8" />
+		<link id="favicon" rel="shortcut icon" type="image/png" href="data:image/png;base64,....==" />
+		<title>FreeCycle Example Client</title>
+
+		<!-- OpenStreet Map Dependencies - https://openlayers.org/en/latest/doc/quickstart.html --> 
+		<!--
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.6.1/css/ol.css" type="text/css">
+		<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.6.1/build/ol.js"></script>
+		-->
+
+<style>
+
+html, body {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+#nav div {
+	display: inline-block;
+}
+
+#nav h1 {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#menu li {
+	display: inline-block;
+}
+
+#user {
+	float: right;
+}
+
+#main {
+
+}
+
+#templates {
+	display: none;
+}
+
+</style>
+	</head>
+	<body>
+		<div id="nav">
+			<div id="logo">
+				<a href="#">
+					&#128205; <!-- Unicode for Map Pin - https://unicode-table.com/en/1F4CD/ -->
+					<h1>FreeCycle</h1>
+				</a>
+			</div>
+			<!-- // HACK - Simplify Client
+			<div id="menu">
+				<ul>
+					<li>
+						<a href="#items">Items</a>
+					</li>
+					<li>
+						<a href="#myitems">MyItems</a>
+					</li>
+				</ul>
+			</div>
+			<div id="user">
+			</div>
+			-->
+		</div>
+
+		<div id="main">
+
+			<!-- // HACK - Simplify Client -->
+			<h3>New Item</h3>
+			<form>
+				<label for="create_user_id">Username</label><input id="create_user_id" type="text" name="user_id"/>
+				<label for="create_lat">lat</label><input id="create_lat" type="text" name="lat"/>
+				<label for="create_lon">lon</label><input id="create_lon" type="text" name="lon"/>
+				<label for="create_image">image</label><input id="create_image" type="text" name="image" value="http://placekitten.com/100/100"/>
+				<label for="create_keywords">keywords</label><input id="create_keywords" type="text" name="keywords"/>
+				<label for="create_description">description</label><textarea id="create_description" type="text" name="description"></textarea>
+				<input type="submit" id="action_create" data-action="create_item">
+			</form>
+			<h3>Items</h3>
+			<div data-page="items"><ul></ul></div>
+
+
+		</div>
+
+		<div id="templates">
+
+			<div data-page="unknown">
+				Unknown page
+			</div>
+
+			<div data-page="about">
+				Welcome
+			</div>
+
+			<div data-page="user">
+
+			</div>
+
+
+			<div data-page="item">
+				
+			</div>
+
+			<div data-page="items">
+				<h2>List items</h2>
+				<ul>
+					<li>
+						<span data-field="id"></span>
+						<img src="" data-field="image"/>
+						<!-- <a href="" class="item_title">Title</a> -->
+						<a href="" data-field="user_id"></a>
+						LatLon: <span data-field="lat"></span>,<span data-field="lon"></span>
+						<span data-field="date_from"></span>
+						<p data-field="description"></p>
+						<ul data-field="keywords"></ul>
+						<button data-action="delete">delete</button>
+					</li>
+				</ul>
+			</div>
+
+
+
+			<div data-page="myitems">
+				<h2>My Page</h2>
+				<h3>New Item</h3>
+					<form>
+						<label for="create_postcode">Postcode</label><input id="create_postcode" type="text" name="postcode"/>
+						<button data-action="lookup_postcode">Lookup</button>
+						<label for="create_lat">lat</label><input id="create_lat" type="text" name="lat"/>
+						<label for="create_lon">lon</label><input id="create_lon" type="text" name="lon"/>
+						<label for="create_image">image</label><input id="create_image" type="text" name="image" value="http://placekitten.com/100/100"/>
+						<label for="create_keywords">keywords</label><input id="create_keywords" type="text" name="keywords"/>
+						<label for="create_description">description</label><textarea id="create_description" type="text" name="description"></textarea>
+						<input type="submit" id="action_create" data-action="create_item">
+					</form>
+				<h3>My Items</h3>
+				<div data-page="items"><ul></ul></div>
+			</div>
+
+			<div data-page="signin">
+				<form>
+					<input type="text" name="username" placeholder="username">
+					<input type="password" name="password">
+					<input type="submit" id="action_signin" data-action="signin">
+				</form>
+			</div>
+
+			<div data-page="map">
+				<div id="map"></div>
+			</div>
+
+		</div>
+<script type="module">
+
+</script>
+	</body>
 </html>
