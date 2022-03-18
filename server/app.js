@@ -7,10 +7,12 @@ const cors = require('cors');
 const path = require('path');
 const items = require('./itemStorage');
 
+app.use(express.static(path.join(__dirname, '../client')));//Allows to load the files that are in the public directory
+
 app.use(cors({
   origin: 'http://localhost:8001',
   methods: ['GET','POST','DELETE', 'OPTIONS']
-}));//defined origin and methods
+}))//defined origin and methods
 
 app.use(express.urlencoded({ extended: false}))
 app.use(express.json())
