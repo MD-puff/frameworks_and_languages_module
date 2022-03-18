@@ -20,6 +20,10 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../client', 'index.js'))//Should initiate index.js file
 })
 
+app.get('/itemStorage/', (req, res) => {
+  res.status(200).json(items);
+})
+
 app.post("/items", (req, res) => {
   var nextId = parseInt(Object.keys(items).reduce((a, b) => items[a] > items[b] ? a : b)) + 1;//Finds a unused number to identify item 
   const newItem = {//
