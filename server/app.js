@@ -17,7 +17,7 @@ app.use(express.json())
 
 //Route
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../client', 'index.js'))//Should initiate index.js file
+  res.sendFile(path.join(__dirname, '../client/vue-project', 'index.html'))//Should initiate index.html file
 })
 
 app.get('/itemStorage/', (req, res) => {
