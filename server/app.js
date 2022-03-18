@@ -3,7 +3,7 @@
 const express = require('express');
 const app = express();
 const port = 8000; //server port
-const cor = require('cors');
+const cors = require('cors');
 const path = require('path');
 const items = require('./itemStorage');
 
@@ -15,10 +15,9 @@ app.use(cors({
 app.use(express.urlencoded({ extended: false}))
 app.use(express.json())
 
-
 //Route
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.js'))//Should initiate index.js file
+  res.sendFile(path.join(__dirname, '../client', 'index.js'))//Should initiate index.js file
 })
 
 app.post("/items", (req, res) => {
